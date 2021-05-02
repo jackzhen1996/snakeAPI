@@ -1,0 +1,32 @@
+{
+  "name": "snakeapi",
+  "version": "1.0.0",
+  "description": "API for reactSnake",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:serve": "ts-node ./server.ts",
+    "start": "nodemon -e ts -w ./src -x npm run watch:serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackzhen1996/snakeAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackzhen1996/snakeAPI/issues"
+  },
+  "homepage": "https://github.com/jackzhen1996/snakeAPI#readme",
+  "dependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^15.0.1",
+    "express": "^4.17.1",
+    "socket.io": "^4.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
+}
