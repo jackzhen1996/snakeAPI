@@ -26,18 +26,15 @@ io.on('connection', (socket:any)=>{
 
   // emit player 1 ready
   socket.on('p1Ready', (ready:boolean)=>{
-    console.log(`p1 is ${ready}`)
     io.emit('p1Ready', ready);
   });
   // emit player 2 ready
   socket.on('p2Ready', (ready:boolean)=>{
-    console.log(`p2 is ${ready}`)
     io.emit('p2Ready', ready);
   });
 
   // emit start game
   socket.on('start', (start:boolean)=>{
-    console.log(`start game!`)
     io.emit('start', start);
   });
 
@@ -51,7 +48,6 @@ io.on('connection', (socket:any)=>{
   });
   // emit food location
   socket.on('food', (pos:string)=>{
-    console.log('pos is ' + pos )
     io.emit('food', pos);
   });
 
@@ -69,12 +65,10 @@ io.on('connection', (socket:any)=>{
   });
 
   socket.on('score1', (score:number)=>{
-    console.log('score 1 ' + score)
     io.emit('score1', score);
   });
 
   socket.on('score2', (score:number)=>{
-    console.log('score 2 ' + score)
     io.emit('score2', score);
   });
 });
