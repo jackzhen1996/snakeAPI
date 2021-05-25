@@ -1,6 +1,7 @@
 import express from 'express';
 const app = express();
 import http from 'http';
+import Logic from './Logic';
 const server = http.createServer(app);
 import {Server} from 'socket.io';
 const io = new Server(server);
@@ -8,6 +9,30 @@ const port = 3001;
 // dev port is 3001, prod is 3000
 
 // const players: Array<String> = [];
+
+interface LogicClass {
+  roomId: string,
+  food: string,
+  p1Pos: string,
+  p2Pos: string,
+  start: boolean,
+  p1Score: number,
+  p2Score: number,
+  endGame: boolean,
+  updateFood(pos:string): void,
+  updateP1Pos(pos:string): void,
+  updateP2Pos(pos:string): void,
+  updateStart(start:boolean): void,
+  updateP1Score(score:number): void,
+  updateP2Score(score:number): void,
+  updateEndgame(end:boolean): void
+};
+
+interface ClientLogic {
+  [roomId: string] : LogicClass
+}
+
+const clientLogicManager: ClientLogic = {};
 
 interface Data {
   data: any,
@@ -42,6 +67,8 @@ io.on('connection', (socket:any)=>{
     for (const key in roomIds) {
       if (roomIds[key].host === socket.id) {
         delete roomIds[key];
+        delete clientLogicManager[key];
+        console.log(clientLogicManager)
         io.emit('hostLeft', true);
         console.log('host left');
         // console.log(roomIds);
@@ -56,6 +83,8 @@ io.on('connection', (socket:any)=>{
     console.log(data);
     socket.join(data.roomId);
     roomIds[data.roomId] = {...data, players:[data.host]};
+    clientLogicManager[data.roomId] = new Logic(data.roomId);
+    console.log(clientLogicManager)
     io.to(data.roomId).emit('playerList', JSON.stringify(roomIds[data.roomId].players));
     io.to(data.roomId).emit('roomId', data.roomId);
   });
@@ -105,7 +134,8 @@ io.on('connection', (socket:any)=>{
   // emit start game
   socket.on('start', (start:Data)=>{
     console.log(start)
-    io.in(start.roomId).emit('start', start.data);
+    clientLogicManager[start.roomId].updateStart(start.data);
+    io.in(start.roomId).emit('start', clientLogicManager[start.roomId].start);
   });
 
   // emit player 1 position
