@@ -5,7 +5,7 @@ import Logic from './Logic';
 const server = http.createServer(app);
 import {Server} from 'socket.io';
 const io = new Server(server);
-const port = 3001;
+const port = 3000;
 // dev port is 3001, prod is 3000
 
 // const players: Array<String> = [];
